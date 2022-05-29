@@ -6,7 +6,7 @@ nivel de autorização para determinadas funções.
 
 ## Para testar: 
 
-Poder ser utilizado Insomnia, basta clonar o projeto e abrir o repositorio Workspace no Insomnia ou via
+Pode ser utilizado Insomnia, basta clonar o projeto e abrir o repositorio Workspace no Insomnia ou via
 Swagger.
 
 ## Swagger com a documentação e testes para API
