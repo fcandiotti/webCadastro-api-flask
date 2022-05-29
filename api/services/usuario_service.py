@@ -20,7 +20,7 @@ def listar_usuario_id(id):
     usuario = usuario_model.Usuario.query.filter_by(id=id).first()
     return usuario
 
-def atualiza_usuari(usuario_db, novo_usuario):
+def atualiza_usuario(usuario_db, novo_usuario):
     usuario_db.nome = novo_usuario.nome
     usuario_db.cpf = novo_usuario.cpf
     usuario_db.pis = novo_usuario.pis
