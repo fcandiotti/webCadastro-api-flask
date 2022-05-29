@@ -2,9 +2,9 @@ from api import ma
 from ..models import usuario_model
 from marshmallow import fields
 
-class UsuariosSchema(ma.SQLAlchemyAutoSchema):
+class UsuarioSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
-        model = usuario_model.Usuarios
+        model = usuario_model.Usuario
         load_instance = True
         fields = ('id', 'nome', 'cpf', 'pis', 'email', 'senha', 'pais', 'estado', 'municipio', 'cep', 'rua', 'numero',
                   'complemento')
@@ -21,4 +21,3 @@ class UsuariosSchema(ma.SQLAlchemyAutoSchema):
     rua = fields.String(required=True)
     numero = fields.Integer(required=True)
     complemento = fields.String(required=True)
-
