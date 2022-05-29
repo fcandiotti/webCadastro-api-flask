@@ -6,7 +6,8 @@ from ..entidades import usuario
 from ..services import usuario_service
 from ..paginate import paginate
 from ..models.usuario_model import Usuario
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt
+from ..decorator import admin_required
 
 class UsuarioList(Resource):
     @jwt_required()
@@ -14,7 +15,7 @@ class UsuarioList(Resource):
         us = usuario_schemas.UsuarioSchema(many=True)
         return paginate(Usuario, us)
 
-    @jwt_required()
+    @admin_required
     def post(self):
         us = usuario_schemas.UsuarioSchema()
         validate = us.validate(request.json)
@@ -33,10 +34,11 @@ class UsuarioList(Resource):
             cpf = request.json["cpf"]
             pis = request.json["pis"]
             senha = request.json["senha"]
+            is_admin = request.json["is_admin"]
 
             novo_usuario = usuario.Usuario(nome=nome, email=email, pais=pais, estado=estado, municipio=municipio,
                                              cep=cep, rua=rua, numero=numero, complemento=complemento, cpf=cpf,
-                                             pis=pis, senha=senha)
+                                             pis=pis, senha=senha, is_admin=is_admin)
 
             resultado = usuario_service.cadastrar_usuario(novo_usuario)
 
@@ -51,7 +53,7 @@ class UsuariosDetail(Resource):
             us = usuario_schemas.UsuarioSchema()
             return make_response(us.jsonify(usuario), 200)
 
-        @jwt_required()
+        @admin_required
         def put(self, id):
             usuario_db = usuario_service.listar_usuario_id(id)
             if usuario_db is None:
@@ -83,7 +85,7 @@ class UsuariosDetail(Resource):
 
                 return make_response(us.jsonify(usuario_atualizado), 200)
 
-        @jwt_required()
+        @admin_required
         def delete(self, id):
             usuario_db = usuario_service.listar_usuario_id(id)
             if usuario_db is None:

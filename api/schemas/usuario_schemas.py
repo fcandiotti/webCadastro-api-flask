@@ -7,7 +7,7 @@ class UsuarioSchema(ma.SQLAlchemyAutoSchema):
         model = usuario_model.Usuario
         load_instance = True
         fields = ('id', 'nome', 'cpf', 'pis', 'email', 'senha', 'pais', 'estado', 'municipio', 'cep', 'rua', 'numero',
-                  'complemento')
+                  'complemento', 'is_admin')
 
     nome = fields.String(required=True)
     cpf = fields.String(required=True)
@@ -21,3 +21,4 @@ class UsuarioSchema(ma.SQLAlchemyAutoSchema):
     rua = fields.String(required=True)
     numero = fields.Integer(required=True)
     complemento = fields.String(required=True)
+    is_admin = fields.Boolean(required=True)

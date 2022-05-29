@@ -1,5 +1,5 @@
 class Usuario():
-    def __init__(self, nome, cpf, pis, email, senha, pais, estado, municipio, cep, rua, numero, complemento):
+    def __init__(self, nome, cpf, pis, email, senha, pais, estado, municipio, cep, rua, numero, complemento, is_admin):
         self.__nome = nome
         self.__cpf = cpf
         self.__pis = pis
@@ -12,6 +12,7 @@ class Usuario():
         self.__rua = rua
         self.__numero = numero
         self.__complemento = complemento
+        self.__is_admin = is_admin
 
     @property
     def nome(self):
@@ -108,3 +109,11 @@ class Usuario():
     @complemento.setter
     def complemento(self, complemento):
         self.__complemento = complemento
+
+    @property
+    def is_admin(self):
+        return self.__is_admin
+
+    @is_admin.setter
+    def is_admin(self, is_admin):
+        self.__is_admin = is_admin

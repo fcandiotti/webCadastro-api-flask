@@ -4,9 +4,9 @@ from api import db
 def cadastrar_usuario(usuario):
 
     usuario_db = usuario_model.Usuario(nome=usuario.nome, cpf=usuario.cpf, pis=usuario.pis,
-                                          email=usuario.email, senha=usuario.senha, pais=usuario.pais,
-                                          estado=usuario.estado, municipio=usuario.municipio, cep=usuario.cep,
-                                          rua=usuario.rua, numero=usuario.numero, complemento=usuario.complemento)
+                                       email=usuario.email, senha=usuario.senha, pais=usuario.pais,estado=usuario.estado,
+                                       municipio=usuario.municipio, cep=usuario.cep,rua=usuario.rua, numero=usuario.numero,
+                                       complemento=usuario.complemento, is_admin=usuario.is_admin)
     usuario_db.encriptar_senha()
     db.session.add(usuario_db)
     db.session.commit()
