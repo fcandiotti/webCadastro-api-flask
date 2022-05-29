@@ -1,4 +1,5 @@
 from api import db
+from passlib.hash import pbkdf2_sha256
 
 class Usuario(db.Model):
     __tablename__ = "usuario"
@@ -15,3 +16,9 @@ class Usuario(db.Model):
     complemento = db.Column(db.String(100))
     email = db.Column(db.String(100), nullable=False)
     senha = db.Column(db.String(255), nullable=False)
+
+    def encriptar_senha(self):
+        self.senha = pbkdf2_sha256.hash(self.senha)
+
+    def ver_senha(self, senha):
+        return pbkdf2_sha256.verify(senha, self.senha)

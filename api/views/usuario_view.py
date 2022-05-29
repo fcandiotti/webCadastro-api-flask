@@ -6,12 +6,15 @@ from ..entidades import usuario
 from ..services import usuario_service
 from ..paginate import paginate
 from ..models.usuario_model import Usuario
+from flask_jwt_extended import jwt_required
 
 class UsuarioList(Resource):
+    @jwt_required()
     def get(self):
         us = usuario_schemas.UsuarioSchema(many=True)
         return paginate(Usuario, us)
 
+    @jwt_required()
     def post(self):
         us = usuario_schemas.UsuarioSchema()
         validate = us.validate(request.json)
@@ -40,6 +43,7 @@ class UsuarioList(Resource):
             return make_response(us.jsonify(resultado), 201)
 
 class UsuariosDetail(Resource):
+        @jwt_required()
         def get(self, id):
             usuario = usuario_service.listar_usuario_id(id)
             if usuario is None:
@@ -47,6 +51,7 @@ class UsuariosDetail(Resource):
             us = usuario_schemas.UsuarioSchema()
             return make_response(us.jsonify(usuario), 200)
 
+        @jwt_required()
         def put(self, id):
             usuario_db = usuario_service.listar_usuario_id(id)
             if usuario_db is None:
@@ -58,6 +63,7 @@ class UsuariosDetail(Resource):
             else:
                 nome = request.json["nome"]
                 email = request.json["email"]
+                senha = request.json["senha"]
                 pais = request.json["pais"]
                 estado = request.json["estado"]
                 municipio = request.json["municipio"]
@@ -70,13 +76,14 @@ class UsuariosDetail(Resource):
 
                 novo_usuario = usuario.Usuario(nome=nome, email=email, pais=pais, estado=estado,municipio=municipio,
                                                      cep=cep, rua=rua, numero=numero, complemento=complemento, cpf=cpf,
-                                                     pis=pis)
+                                                     pis=pis, senha=senha)
 
                 usuario_service.atualiza_usuario(usuario_db, novo_usuario)
                 usuario_atualizado = usuario_service.listar_usuario_id(id)
 
                 return make_response(us.jsonify(usuario_atualizado), 200)
 
+        @jwt_required()
         def delete(self, id):
             usuario_db = usuario_service.listar_usuario_id(id)
             if usuario_db is None:

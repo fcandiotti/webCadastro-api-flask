@@ -1,17 +1,17 @@
 class Usuario():
     def __init__(self, nome, cpf, pis, email, senha, pais, estado, municipio, cep, rua, numero, complemento):
         self.__nome = nome
-        self.cpf = cpf
-        self.pis = pis
-        self.email = email
-        self.senha = senha
-        self.pais = pais
-        self.estado = estado
-        self.municipio = municipio
-        self.cep = cep
-        self.rua = rua
-        self.numero = numero
-        self.complemento = complemento
+        self.__cpf = cpf
+        self.__pis = pis
+        self.__email = email
+        self.__senha = senha
+        self.__pais = pais
+        self.__estado = estado
+        self.__municipio = municipio
+        self.__cep = cep
+        self.__rua = rua
+        self.__numero = numero
+        self.__complemento = complemento
 
     @property
     def nome(self):

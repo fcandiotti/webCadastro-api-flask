@@ -13,7 +13,7 @@ class UsuarioSchema(ma.SQLAlchemyAutoSchema):
     cpf = fields.String(required=True)
     pis = fields.String(required=True)
     email = fields.String(required=True)
-    senha = fields.String(required=True)
+    senha = fields.String(required=False)
     pais = fields.String(required=True)
     estado = fields.String(required=True)
     municipio = fields.String(required=True)
