@@ -4,11 +4,13 @@ from ..schemas import usuario_schemas
 from flask import request, make_response, jsonify
 from ..entidades import usuario
 from ..services import usuario_service
+from ..paginate import paginate
+from ..models.usuario_model import Usuario
 
 class UsuarioList(Resource):
     def get(self):
         us = usuario_schemas.UsuarioSchema(many=True)
-        return
+        return paginate(Usuario, us)
 
     def post(self):
         us = usuario_schemas.UsuarioSchema()
