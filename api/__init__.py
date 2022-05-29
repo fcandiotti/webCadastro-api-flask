@@ -11,3 +11,4 @@ migrate = Migrate(app, db)
 api = Api(app)
 
 from .views import usuario_view
+from .models import usuario_model
