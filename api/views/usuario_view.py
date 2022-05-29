@@ -1,8 +1,86 @@
 from flask_restful import Resource
 from api import api
+from ..schemas import usuario_schemas
+from flask import request, make_response, jsonify
+from ..entidades import usuario
+from ..services import usuario_service
 
 class UsuarioList(Resource):
     def get(self):
-        return "Ola"
+        us = usuario_schemas.UsuarioSchema(many=True)
+        return
+
+    def post(self):
+        us = usuario_schemas.UsuarioSchema()
+        validate = us.validate(request.json)
+        if validate:
+            return make_response(jsonify(validate), 400)
+        else:
+            nome = request.json["nome"]
+            email = request.json["email"]
+            pais = request.json["pais"]
+            estado = request.json["estado"]
+            municipio = request.json["municipio"]
+            cep = request.json["cep"]
+            rua = request.json["rua"]
+            numero = request.json["numero"]
+            complemento = request.json["complemento"]
+            cpf = request.json["cpf"]
+            pis = request.json["pis"]
+            senha = request.json["senha"]
+
+            novo_usuario = usuario.Usuario(nome=nome, email=email, pais=pais, estado=estado, municipio=municipio,
+                                             cep=cep, rua=rua, numero=numero, complemento=complemento, cpf=cpf,
+                                             pis=pis, senha=senha)
+
+            resultado = usuario_service.cadastrar_usuario(novo_usuario)
+
+            return make_response(us.jsonify(resultado), 201)
+
+class UsuariosDetail(Resource):
+        def get(self, id):
+            usuario = usuario_service.listar_usuario_id(id)
+            if usuario is None:
+                return make_response(jsonify("UsuarioId não foi encontrado"), 404)
+            us = usuario_schemas.UsuarioSchema()
+            return make_response(us.jsonify(usuario), 200)
+
+        def put(self, id):
+            usuario_db = usuario_service.listar_usuario_id(id)
+            if usuario_db is None:
+                return make_response(jsonify("UsuarioId não foi encontrado"), 404)
+            us = usuario_schemas.UsuarioSchema()
+            validate = us.validate(request.json)
+            if validate:
+                return make_response(jsonify(validate), 400)
+            else:
+                nome = request.json["nome"]
+                email = request.json["email"]
+                pais = request.json["pais"]
+                estado = request.json["estado"]
+                municipio = request.json["municipio"]
+                cep = request.json["cep"]
+                rua = request.json["rua"]
+                numero = request.json["numero"]
+                complemento = request.json["complemento"]
+                cpf = request.json["cpf"]
+                pis = request.json["pis"]
+
+                novo_usuario = usuario.Usuario(nome=nome, email=email, pais=pais, estado=estado,municipio=municipio,
+                                                     cep=cep, rua=rua, numero=numero, complemento=complemento, cpf=cpf,
+                                                     pis=pis)
+
+                usuario_service.atualiza_usuario(usuario_db, novo_usuario)
+                usuario_atualizado = usuario_service.listar_usuario_id(id)
+
+                return make_response(us.jsonify(usuario_atualizado), 200)
+
+        def delete(self, id):
+            usuario_db = usuario_service.listar_usuario_id(id)
+            if usuario_db is None:
+                return make_response(jsonify("UsuarioId não foi encontrado"), 404)
+            usuario_service.remove_usuario(usuario_db)
+            return make_response(jsonify("Usuario Excluído com Sucesso"), 204)
 
 api.add_resource(UsuarioList, '/usuarios')
+api.add_resource(UsuariosDetail, '/usuarios/<int:id>')
