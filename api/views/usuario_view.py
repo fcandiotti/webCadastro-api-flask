@@ -15,7 +15,6 @@ class UsuarioList(Resource):
         us = usuario_schemas.UsuarioSchema(many=True)
         return paginate(Usuario, us)
 
-    @admin_required
     def post(self):
         us = usuario_schemas.UsuarioSchema()
         validate = us.validate(request.json)
